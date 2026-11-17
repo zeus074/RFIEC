@@ -42,6 +42,8 @@ An **Arduino Pro Micro 5 V / 16 MHz** (ATmega32U4) and a **6-pin DIN** cable or 
 The wiring is exactly the XUM1541 "PROMICRO" one, with no other components: if you already built that
 adapter, you only change the firmware.
 
+<p align="center"><img src="docs/images/ProMicro-RFIEC.jpg" width="520" alt="A Pro Micro (USB-C) with the IEC cable soldered directly to its pins"><br><sub>A finished RFIEC: the IEC cable is soldered straight to the Pro Micro pins, nothing else on the board.</sub></p>
+
 <p align="center"><img src="docs/images/wiring.png" width="760" alt="Wiring: Pro Micro pins 16, 14, 8, 9, 10 and GND to IEC DIN pins 5, 4, 3, 1, 6 and 2"></p>
 
 | Pro Micro | Port | Signal | IEC DIN pin |

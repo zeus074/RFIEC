@@ -28,6 +28,8 @@ Un **Arduino Pro Micro 5 V / 16 MHz** e un cavo o una presa **DIN a 6 poli** per
 "PROMICRO", senza altri componenti: se hai già costruito quell'adattatore cambi solo il firmware. Lo schema è
 nel [README inglese](README.md#hardware).
 
+<p align="center"><img src="docs/images/ProMicro-RFIEC.jpg" width="520" alt="Un Pro Micro (USB-C) con il cavo IEC saldato direttamente sui pin"><br><sub>Una RFIEC finita: il cavo IEC è saldato direttamente sui pin del Pro Micro, senza altro sulla scheda.</sub></p>
+
 | Pro Micro | Porta | Segnale | Pin DIN IEC |
 |---|---|---|---|
 | 16 | PB2 | DATA | 5 |
