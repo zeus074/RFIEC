@@ -275,6 +275,7 @@ U.controlTransferIn = async function (setup, len) {
   return result('stall');
 };
 U.controlTransferOut = async function (setup) {
+  if (setup.request === X.BOOTLOADER) { this.bootloader = true; this.opened = false; this.claimed = false; return {status: 'ok', bytesWritten: 0}; }
   if (setup.request === X.RESET && this.hung && this.resetFrees) { this.hung = false; this.inQ.push([X.ERROR, 0, 0]); return {status: 'ok', bytesWritten: 0}; }
   if (setup.request === X.RESET) { this.drive.reset(false); this.inQ = []; this.pending = null; await sleep(this.drive.speed === 'real' ? 800 : 20); }
   return {status: 'ok', bytesWritten: 0};

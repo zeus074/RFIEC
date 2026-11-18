@@ -13,7 +13,8 @@ work the other way round, with the C64 using the PC. Italian and English (switch
 | **Print** | Prints text, or the listing of a BASIC program, on a real Commodore printer, with upper-case or lower-case characters. Can also send a file raw, such as a `.prn` saved earlier. |
 
 The *Interface* menu also installs firmware on the Pro Micro: RFIEC, XUM1541 or XUM1541 with 7406. It goes through
-the board's bootloader, so you can switch whenever you like.
+the board's bootloader, so you can switch whenever you like. If the board is connected (as RFIEC, or as xum1541) the
+program restarts it into the bootloader by itself; otherwise double-reset the Pro Micro.
 
 ## Download
 

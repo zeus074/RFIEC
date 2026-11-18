@@ -792,7 +792,13 @@
     if (S.conn && S.conn.kind === 'rfiec') {
       var port = S.conn.port; await disconnect(true);
       try { await RF.SerialLink.touch1200(port); auto = true; } catch (e) { log('err', errMsg(e)); }
-    } else if (S.conn) await disconnect(true);
+    } else {
+      // xum1541 collegata (o già autorizzata): il firmware v08 riparte nel bootloader con un comando USB
+      var udev = S.conn && S.conn.kind === 'xum' ? S.conn.device : null;
+      if (!udev && !S.conn && navigator.usb) { try { var kn = await RF.Xum1541.known(); if (kn.length === 1) udev = kn[0]; } catch (e) {} }
+      if (S.conn) await disconnect(true);
+      if (udev) { try { await RF.Xum1541.enterBootloader(udev, log); auto = true; } catch (e) { log('err', errMsg(e)); } }
+    }
     await ask({title: t('fwT'), html: t(auto ? 'fwBootAuto' : 'fwBootManual'), buttons: [{v: 'cancel', label: t('close')}, {v: 'go', label: t('fwPick'), cls: 'pri'}],
       onSubmit: async function (v, out) {
         var link = null;
@@ -894,5 +900,5 @@
   })();
 
   // per le prove automatiche
-  window.__rfiec = {S: S, mps: mps, refreshAll: refreshAll, pcLoad: pcLoad, setTab: setTab};
+  window.__rfiec = {S: S, mps: mps, refreshAll: refreshAll, pcLoad: pcLoad, setTab: setTab, firmware: firmware};
 })();

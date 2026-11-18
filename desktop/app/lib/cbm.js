@@ -9,7 +9,7 @@
 
 var X = {
   VID: 0x16D0, PID: 0x0504, EP_IN: 3, EP_OUT: 4, IFACE: 0,
-  ECHO: 0, INIT: 1, RESET: 2, SHUTDOWN: 3, GITREV: 6,
+  ECHO: 0, INIT: 1, RESET: 2, SHUTDOWN: 3, BOOTLOADER: 4, GITREV: 6,
   READ: 8, WRITE: 9, GET_EOI: 23, CLEAR_EOI: 24,
   CBM: 0x10, F_TALK: 0x01, F_ATN: 0x02,
   BUSY: 1, READY: 2, ERROR: 3, DOING_RESET: 0x01, MAX_XFER: 32768, MIN_VERSION: 7,
@@ -50,6 +50,22 @@ Xum1541.request = function () { return navigator.usb.requestDevice({filters: Xum
 Xum1541.known = function () {
   if (!Xum1541.supported()) return Promise.resolve([]);
   return navigator.usb.getDevices().then(function (l) { return l.filter(function (d) { return d.vendorId === X.VID && d.productId === X.PID; }); });
+};
+/* ENTER_BOOTLOADER (comando 4): il firmware xum1541 v08 per Pro Micro simula il doppio reset e riparte nel bootloader
+ * Caterina (8 secondi), così si può installare un altro firmware senza premere il reset. Funziona con un dispositivo
+ * già aperto o chiuso; dopo il comando la xum1541 sparisce dall'USB e al suo posto compare la porta seriale del bootloader. */
+Xum1541.enterBootloader = async function (dev, log) {
+  log = log || function () {};
+  if (!dev.opened) await dev.open();
+  if (!dev.configuration || dev.configuration.configurationValue !== 1) await dev.selectConfiguration(1);
+  try { await dev.claimInterface(X.IFACE); } catch (e) { /* già reclamata */ }
+  var r = null;
+  try { r = await withTimeout(dev.controlTransferOut({requestType: 'class', recipient: 'device', request: X.BOOTLOADER, value: 0, index: 0}), 1500, 'bootloader'); }
+  catch (e) { log('usb', 'bootloader: ' + (e.message || e) + ' (la scheda si sta già riavviando)'); }
+  if (r && r.status !== 'ok') throw new Error('La xum1541 non accetta il comando del bootloader (' + r.status + '): premi due volte il reset.');
+  log('usb', 'ENTER_BOOTLOADER → la xum1541 si riavvia nel bootloader');
+  try { await dev.close(); } catch (e) {}
+  await sleep(400);
 };
 var XP = Xum1541.prototype;
 XP.ctrlIn = function (req, len) {

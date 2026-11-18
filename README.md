@@ -64,13 +64,16 @@ adapter, you only change the firmware.
 
 1. Open [retrofixer.it/xum1541](https://retrofixer.it/xum1541/) with **Chrome, Edge or Firefox 151+**.
 2. Press **Pro Micro firmware…** and choose **RFIEC**.
-3. Press **Install**, then **double-reset** the Pro Micro (touch RST to GND twice, quickly): the LED pulses
-   slowly and the Caterina bootloader stays active for about 8 seconds.
+3. Press **Install**. If the board is connected to the page (as RFIEC, or as XUM1541 with **Connect the xum1541**)
+   it restarts into the Caterina bootloader by itself. Otherwise **double-reset** the Pro Micro (touch RST to GND
+   twice, quickly): the LED pulses slowly and the bootloader stays active for about 8 seconds.
 4. Choose the bootloader port in the browser list. The page writes and verifies the firmware.
 
 <p align="center"><img src="docs/images/firmware-dialog.png" width="420" alt="The Pro Micro firmware dialog"></p>
 
-The bootloader is never touched, so you can go back to the XUM1541 firmware from the same dialog at any time.
+The bootloader is never touched, so you can go back to the XUM1541 firmware from the same dialog at any time. The XUM1541
+firmware v08 for the Pro Micro has a USB command that restarts it into the bootloader (`ENTER_BOOTLOADER`, used by
+the page and the desktop program), so switching works both ways without pressing reset.
 
 ### With avrdude
 

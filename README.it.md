@@ -44,8 +44,9 @@ La versione della XUM1541 con l'integrato **7406** non è supportata da RFIEC.
 ## Installare il firmware
 
 **Dalla pagina** (il modo più semplice): apri [retrofixer.it/xum1541](https://retrofixer.it/xum1541/) con Chrome,
-Edge o Firefox 151 o successivi, premi **Firmware del Pro Micro…**, scegli **RFIEC**, premi **Installa**, fai il
-**doppio reset** del Pro Micro (tocca due volte di seguito RST con GND) e scegli la porta del bootloader. Il
+Edge o Firefox 151 o successivi, premi **Firmware del Pro Micro…**, scegli **RFIEC**, premi **Installa** e scegli la porta del bootloader. Se la
+scheda è collegata alla pagina (come RFIEC, oppure come XUM1541 con **Collega la xum1541**) si riavvia da sola nel
+bootloader; altrimenti fai il **doppio reset** del Pro Micro (tocca due volte di seguito RST con GND). Il
 bootloader resta sempre al suo posto: puoi tornare alla XUM1541 quando vuoi.
 
 **Con avrdude**: scarica `rfiec-v2.6.hex` dalle [release](https://github.com/zeus074/RFIEC/releases/latest), fai il
