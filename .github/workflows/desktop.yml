@@ -30,10 +30,10 @@ jobs:
       run:
         working-directory: desktop
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
-          node-version: 22
+          node-version: 24
           cache: npm
           cache-dependency-path: desktop/package-lock.json
       - run: npm ci
@@ -41,7 +41,7 @@ jobs:
         run: npx electron-builder ${{ matrix.target }} --publish never
         env:
           CSC_IDENTITY_AUTO_DISCOVERY: 'false'
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: RFIEC-${{ runner.os }}
           path: |
@@ -57,14 +57,16 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/download-artifact@v4
+      - uses: actions/checkout@v7
+      - uses: actions/download-artifact@v8
         with:
           path: packages
           merge-multiple: true
-      - uses: softprops/action-gh-release@v2
+      - name: Version from the tag
+        run: echo "VER=${GITHUB_REF_NAME#desktop-v}" >> "$GITHUB_ENV"
+      - uses: softprops/action-gh-release@v3
         with:
-          name: RFIEC desktop ${{ github.ref_name }} (beta)
+          name: RFIEC desktop ${{ env.VER }} (beta)
           body_path: desktop/RELEASE_NOTES.md
           prerelease: true
           make_latest: false
