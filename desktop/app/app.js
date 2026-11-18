@@ -801,17 +801,13 @@
     }
     await ask({title: t('fwT'), html: t(auto ? 'fwBootAuto' : 'fwBootManual'), buttons: [{v: 'cancel', label: t('close')}, {v: 'go', label: t('fwPick'), cls: 'pri'}],
       onSubmit: async function (v, out) {
-        var link = null;
         try {
           var bp = await navigator.serial.requestPort({});
-          link = new RF.SerialLink(bp, log);
-          await link.open(57600);
-          await new RF.Avr109(link, log).program(img, function (d, tot, ph) { out.textContent = t(ph === 'write' ? 'fwWriting' : 'fwVerify') + ' ' + Math.round(d / tot * 100) + '%'; });
-          await link.close();
+          var res = await RF.flashFirmware(bp, img, log, function (d, tot, ph) { out.textContent = t(ph === 'write' ? 'fwWriting' : 'fwVerify') + ' ' + Math.round(d / tot * 100) + '%'; out.className = 'out'; });
+          if (res === 'restarted') { out.textContent = t('fwRestarted'); out.className = 'out'; return; }
           out.textContent = t('fwDone', {n: fw.name}); out.className = 'out';
           log('info', t('fwDone', {n: fw.name}));
         } catch (e) {
-          if (link) { try { await link.close(); } catch (x) {} }
           out.textContent = errMsg(e); out.className = 'out err';
         }
       }});

@@ -14,7 +14,8 @@ work the other way round, with the C64 using the PC. Italian and English (switch
 
 The *Interface* menu also installs firmware on the Pro Micro: RFIEC, XUM1541 or XUM1541 with 7406. It goes through
 the board's bootloader, so you can switch whenever you like. If the board is connected (as RFIEC, or as xum1541) the
-program restarts it into the bootloader by itself; otherwise double-reset the Pro Micro.
+program restarts it into the bootloader by itself. A new Pro Micro with an Arduino test sketch is restarted too, once you
+choose its port; only if the board does not show up at all do you need to double-reset it.
 
 ## Download
 

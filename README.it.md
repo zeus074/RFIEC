@@ -44,10 +44,20 @@ La versione della XUM1541 con l'integrato **7406** non è supportata da RFIEC.
 ## Installare il firmware
 
 **Dalla pagina** (il modo più semplice): apri [retrofixer.it/xum1541](https://retrofixer.it/xum1541/) con Chrome,
-Edge o Firefox 151 o successivi, premi **Firmware del Pro Micro…**, scegli **RFIEC**, premi **Installa** e scegli la porta del bootloader. Se la
-scheda è collegata alla pagina (come RFIEC, oppure come XUM1541 con **Collega la xum1541**) si riavvia da sola nel
-bootloader; altrimenti fai il **doppio reset** del Pro Micro (tocca due volte di seguito RST con GND). Il
+Edge o Firefox 151 o successivi, premi **Firmware del Pro Micro…**, scegli **RFIEC**, premi **Installa** e scegli la porta della scheda. Il
 bootloader resta sempre al suo posto: puoi tornare alla XUM1541 quando vuoi.
+
+**Cambiare firmware senza premere il reset**: la pagina e il [programma per PC](desktop/) riavviano da soli la scheda
+nel bootloader Caterina.
+
+| Sulla scheda c'è | Cosa fare |
+|---|---|
+| **RFIEC** | Premi **Installa**: la scheda riparte con il tocco a 1200 baud, come fa l'Arduino IDE. |
+| **XUM1541** | Prima **Collega la xum1541**, poi **Installa**: la pagina manda il comando USB `ENTER_BOOTLOADER` (numero 4) del firmware XUM1541 v08. |
+| **Pro Micro nuovo** | Premi **Installa** e scegli la sua porta. Di solito ha uno sketch di prova Arduino: la pagina lo riavvia e ti chiede la porta del bootloader (un nome nuovo, attiva per circa 8 secondi). Un Pro Micro vuoto è già nel bootloader. |
+| Non compare niente (XUM1541 senza driver, scrittura interrotta) | **Doppio reset** del Pro Micro (tocca due volte di seguito RST con GND): il bootloader resta attivo circa 8 secondi. |
+
+Per l'ultimo caso un pulsante di reset sulla scheda resta comodo.
 
 **Con avrdude**: scarica `rfiec-v2.6.hex` dalle [release](https://github.com/zeus074/RFIEC/releases/latest), fai il
 doppio reset e lancia

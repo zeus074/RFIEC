@@ -406,6 +406,27 @@ AP.program = async function (image, onProgress) {
   await this.ok([0x45]);                             // esce dal bootloader e avvia il firmware
 };
 RF.Avr109 = Avr109;
+/* Scrive il firmware sulla porta scelta nel dialogo. Se lì non risponde il bootloader ma la porta è di un Pro Micro
+ * (scheda nuova con lo sketch di prova, RFIEC non collegata alla pagina…), la riavvia nel bootloader con il tocco a
+ * 1200 baud e restituisce 'restarted': il bootloader compare come un'altra porta, da scegliere di nuovo entro 8 secondi.
+ * link: solo per le prove (un oggetto con open/close/write/onData al posto della porta vera). */
+RF.flashFirmware = async function (port, image, log, onProgress, link) {
+  log = log || function () {};
+  link = link || new SerialLink(port, log);
+  await link.open(57600);
+  var av = new Avr109(link, log), id = '';
+  try { id = String.fromCharCode.apply(null, await av.cmd([0x53], 7, 800)); } catch (e) {}
+  if (!/CATERIN|LUFACDC|AVRBOOT/i.test(id)) {
+    try { await link.close(); } catch (e) {}
+    var info = port && port.getInfo ? port.getInfo() : {}, known = SerialLink.filters.some(function (f) { return f.usbVendorId === info.usbVendorId; });
+    if (!known) throw new Error(id ? 'bootloader sconosciuto (' + id + ')' : 'il bootloader non risponde');
+    log('usb', 'sulla porta non c\'è il bootloader: la riavvio con il tocco a 1200 baud');
+    await SerialLink.touch1200(port);
+    return 'restarted';
+  }
+  try { await av.program(image, onProgress); } finally { try { await link.close(); } catch (e) {} }
+  return 'done';
+};
 // firmware incorporati nella pagina (base64, generati da build.py)
 RF.firmwareImage = function (key) {
   var f = RF.FIRMWARE && RF.FIRMWARE[key];

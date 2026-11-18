@@ -55,7 +55,8 @@ window.I18N = {
     // firmware
     fwT: 'Firmware del Pro Micro', fwB: 'La stessa scheda fa due lavori diversi a seconda del firmware: <b>RFIEC</b> (consigliato, nessun driver: il PC fa da drive e stampante e comanda drive e stampanti veri) oppure <b>XUM1541</b> (per OpenCBM e cbmXfer; su Windows vuole il driver WinUSB). Il bootloader resta sempre: si cambia quando si vuole.',
     fwWhich: 'Firmware', fwGo: 'Installa', fwBootAuto: 'Riavvio la scheda nel bootloader… Nella finestra che si apre scegli la porta del <b>bootloader</b> (compare per circa 8 secondi).',
-    fwBootManual: 'Fai il <b>doppio reset</b> del Pro Micro (tocca due volte di seguito RST con GND): il LED pulsa e il bootloader resta attivo circa 8 secondi. Poi premi «Scegli la porta» e scegli la porta del bootloader.<br>Con la XUM1541 installata non serve: collegala prima con «Collega la xum1541» e la scheda si riavvia da sola.',
+    fwBootManual: 'Premi «Scegli la porta» e scegli la porta della scheda. Se c\'è un programma (un Pro Micro nuovo con lo sketch di prova, o la RFIEC non collegata), il programma la riavvia nel bootloader e ti chiede di scegliere di nuovo la porta.<br>Con la XUM1541 installata collegala prima con «Collega la xum1541»: la scheda si riavvia da sola. Se la scheda non compare tra le porte, fai il <b>doppio reset</b> del Pro Micro (tocca due volte di seguito RST con GND): il bootloader resta attivo circa 8 secondi.',
+    fwRestarted: 'Sulla porta scelta c\'era un programma, non il bootloader: ho riavviato la scheda nel bootloader. Premi di nuovo «Scegli la porta» entro 8 secondi e scegli la porta nuova.',
     fwPick: 'Scegli la porta', fwWriting: 'Scrittura', fwVerify: 'Verifica', fwDone: '{n} installato. Scollega e ricollega la scheda.',
     eta: '{d} / {t} · {r}', etaLeft: ' · mancano {s}', kbps: '{v} KB/s', bps: '{v} byte/s'
   },
@@ -110,7 +111,8 @@ window.I18N = {
     prNeed: 'Type some text or load a file.', printing: 'Printing on printer {d}', printed: '{n} bytes printed', prLoaded: 'Loaded: {n}', prNoBasic: 'This PRG is not a BASIC program: to send its bytes as they are use "Send raw file".',
     fwT: 'Pro Micro firmware', fwB: 'The same board does two different jobs depending on the firmware: <b>RFIEC</b> (recommended, no driver: the PC acts as drive and printer and controls real drives and printers) or <b>XUM1541</b> (for OpenCBM and cbmXfer; on Windows it needs the WinUSB driver). The bootloader always stays: switch whenever you like.',
     fwWhich: 'Firmware', fwGo: 'Install', fwBootAuto: 'Restarting the board into the bootloader… In the window that opens choose the <b>bootloader</b> port (it appears for about 8 seconds).',
-    fwBootManual: '<b>Double-reset</b> the Pro Micro (touch RST to GND twice, quickly): the LED pulses and the bootloader stays active for about 8 seconds. Then press "Choose the port" and pick the bootloader port.<br>With the XUM1541 installed there is no need: connect it first with "Connect the xum1541" and the board restarts by itself.',
+    fwBootManual: 'Press "Choose the port" and pick the board\'s port. If a program is running on it (a new Pro Micro with its test sketch, or the RFIEC not connected), the program restarts it into the bootloader and asks you to choose the port again.<br>With the XUM1541 installed, connect it first with "Connect the xum1541": the board restarts by itself. If the board does not show up among the ports, <b>double-reset</b> the Pro Micro (touch RST to GND twice, quickly): the bootloader stays active for about 8 seconds.',
+    fwRestarted: 'The chosen port was running a program, not the bootloader: the board has been restarted into its bootloader. Press "Choose the port" again within 8 seconds and pick the new port.',
     fwPick: 'Choose the port', fwWriting: 'Writing', fwVerify: 'Verifying', fwDone: '{n} installed. Unplug and replug the board.',
     eta: '{d} / {t} · {r}', etaLeft: ' · {s} left', kbps: '{v} KB/s', bps: '{v} bytes/s'
   }
