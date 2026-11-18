@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; frame-src 'self'">
+<title>RFIEC</title>
+<link rel="stylesheet" href="shell.css">
+</head>
+<body>
+<header class="bar">
+  <div class="logo">RFIEC</div>
+  <nav class="tabs" role="tablist">
+    <button role="tab" data-tab="drive" aria-selected="true"><span class="i">💾</span><span data-it="Floppy e drive" data-en="Floppies and drives">Floppy e drive</span></button>
+    <button role="tab" data-tab="printer" aria-selected="false"><span class="i">🖨</span><span data-it="Stampante" data-en="Printer">Stampante</span></button>
+  </nav>
+  <span class="sp"></span>
+  <div class="lang" role="group" aria-label="Lingua / Language">
+    <button data-lang="it">IT</button><button data-lang="en">EN</button>
+  </div>
+</header>
+<main>
+  <iframe id="fDrive" title="Drive" allow="serial; usb; clipboard-write"></iframe>
+  <iframe id="fPrinter" title="Printer" allow="serial; usb; clipboard-write" hidden></iframe>
+</main>
+
+<dialog id="chooser">
+  <form method="dialog">
+    <h3 id="chTitle"></h3>
+    <p id="chHelp" class="help"></p>
+    <div id="chList" class="list" role="listbox"></div>
+    <label class="ck"><input type="checkbox" id="chAll"> <span id="chAllL"></span></label>
+    <div class="btns">
+      <button value="cancel" id="chCancel"></button>
+      <button value="ok" id="chOk" class="pri"></button>
+    </div>
+  </form>
+</dialog>
+<script src="shell.js"></script>
+</body>
+</html>

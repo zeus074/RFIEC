@@ -57,6 +57,14 @@ avrdude -p m32u4 -c avr109 -P COM7 -b 57600 -D -U flash:w:rfiec-v2.6.hex:i
 
 oppure, su Windows, `tools\flash-promicro.ps1`.
 
+## App per PC (Windows, Linux, macOS)
+
+Gli stessi programmi per i drive e la stampante ci sono anche come **app**, che funziona senza browser e senza
+internet. Con la RFIEC non serve nessun driver, e l'app funziona anche con la xum1541. Il collegamento resta aperto
+mentre passi dalla scheda dei floppy a quella della stampante; PDF, immagini D64 e dati di stampa si salvano con la
+normale finestra «Salva con nome». Si scarica dalle [release](https://github.com/zeus074/RFIEC/releases) (tag
+`desktop-v…`); le istruzioni per ogni sistema sono in [desktop/README.md](desktop/README.md).
+
 ## RFIEC o XUM1541?
 
 Stessa scheda, due firmware. RFIEC in più fa da drive e da stampante per il C64 e non vuole driver; la XUM1541

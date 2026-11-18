@@ -30,6 +30,7 @@ bus timing and forwards every bus event over USB.
 - [Hardware](#hardware)
 - [Install the firmware](#install-the-firmware)
 - [Use it](#use-it)
+- [Desktop app](#desktop-app-windows-linux-macos)
 - [RFIEC or XUM1541?](#rfiec-or-xum1541)
 - [Build from source](#build-from-source)
 - [How it works](#how-it-works)
@@ -114,6 +115,17 @@ On the drive page open **Real drive** and press the orange **Connect the RFIEC**
 
 Browsers: Web Serial is available in **Chrome**, **Edge** and **Firefox 151 or later** (Firefox asks for an extra
 permission the first time). On Linux your user must be allowed to open serial ports (usually the `dialout` group).
+
+## Desktop app (Windows, Linux, macOS)
+
+The same drive and printer programs are also available as an **offline app**: no browser needed and no driver for
+the RFIEC. The app also works with an xum1541. It keeps the connection open while you switch between the drive and
+printer tabs, and saves PDFs, D64 images and print data with a normal *Save as* dialog.
+
+<p align="center"><img src="docs/images/app-drive.png" width="820" alt="The RFIEC desktop app, drive tab"></p>
+
+Download it from the [releases](https://github.com/zeus074/RFIEC/releases) (tags `desktop-v…`). Details, notes for
+each system and how to build it are in [desktop/README.md](desktop/README.md).
 
 ## RFIEC or XUM1541?
 

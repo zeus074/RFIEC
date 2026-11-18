@@ -1,0 +1,34 @@
+{
+  "name": "rfiec-desktop",
+  "productName": "RFIEC",
+  "version": "0.1.0",
+  "description": "Commodore floppy drives and printers on your PC through the RFIEC (Web Serial) or xum1541 (WebUSB) board: the PC as a drive or printer for the C64, or the PC driving real drives and printers.",
+  "homepage": "https://github.com/zeus074/RFIEC",
+  "author": "RetroFixer <noreply@retrofixer.it>",
+  "license": "GPL-3.0-or-later",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --publish never",
+    "dist:win": "electron-builder --win --publish never",
+    "dist:linux": "electron-builder --linux --publish never",
+    "dist:mac": "electron-builder --mac --publish never"
+  },
+  "devDependencies": {
+    "electron": "^45.3.4",
+    "electron-builder": "^26.18.0"
+  },
+  "build": {
+    "appId": "it.retrofixer.rfiec",
+    "productName": "RFIEC",
+    "artifactName": "RFIEC-${version}-${os}-${arch}.${ext}",
+    "directories": { "output": "dist", "buildResources": "build" },
+    "files": ["main.js", "preload.js", "csdb.js", "app/**/*", "build/icon.png", "package.json"],
+    "win": { "target": [{ "target": "nsis", "arch": ["x64"] }, { "target": "portable", "arch": ["x64"] }] },
+    "portable": { "artifactName": "RFIEC-${version}-win-portable.${ext}" },
+    "nsis": { "oneClick": false, "allowToChangeInstallationDirectory": true, "createDesktopShortcut": true },
+    "linux": { "target": ["AppImage", "deb"], "category": "Utility", "maintainer": "RetroFixer <noreply@retrofixer.it>" },
+    "deb": { "depends": [] },
+    "mac": { "target": [{ "target": "dmg", "arch": ["x64", "arm64"] }], "category": "public.app-category.utilities", "identity": null }
+  }
+}
