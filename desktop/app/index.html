@@ -2,40 +2,198 @@
 <html lang="it">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; frame-src 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; object-src 'none'">
 <title>RFIEC</title>
-<link rel="stylesheet" href="shell.css">
+<link rel="stylesheet" href="app.css">
 </head>
 <body>
-<header class="bar">
-  <div class="logo">RFIEC</div>
-  <nav class="tabs" role="tablist">
-    <button role="tab" data-tab="drive" aria-selected="true"><span class="i">💾</span><span data-it="Floppy e drive" data-en="Floppies and drives">Floppy e drive</span></button>
-    <button role="tab" data-tab="printer" aria-selected="false"><span class="i">🖨</span><span data-it="Stampante" data-en="Printer">Stampante</span></button>
-  </nav>
-  <span class="sp"></span>
-  <div class="lang" role="group" aria-label="Lingua / Language">
-    <button data-lang="it">IT</button><button data-lang="en">EN</button>
+
+<!-- barra dell'interfaccia -->
+<header class="top">
+  <div class="logo" title="RFIEC">RFIEC</div>
+  <div class="iface">
+    <span class="led" id="ifLed"></span>
+    <span class="iname" id="ifName" data-t="ifNone"></span>
+    <button class="b rf" id="btnRfiec"><span>🔌</span><span data-t="connRfiec"></span></button>
+    <button class="b xum" id="btnXum"><span>🔌</span><span data-t="connXum"></span></button>
+    <button class="b" id="btnOff" hidden data-t="disconnect"></button>
   </div>
+  <span class="sp"></span>
+  <nav class="tabs" role="tablist">
+    <button role="tab" data-tab="drive" aria-selected="true"><span class="ico">💾⇄💻</span><span data-t="tabDrive"></span></button>
+    <button role="tab" data-tab="emu" aria-selected="false"><span class="ico">C64→💻</span><span data-t="tabEmu"></span></button>
+    <button role="tab" data-tab="print" aria-selected="false"><span class="ico">💻→🖨</span><span data-t="tabPrint"></span></button>
+  </nav>
+  <div class="lang" role="group" aria-label="Lingua / Language"><button data-lang="it">IT</button><button data-lang="en">EN</button></div>
 </header>
-<main>
-  <iframe id="fDrive" title="Drive" allow="serial; usb; clipboard-write"></iframe>
-  <iframe id="fPrinter" title="Printer" allow="serial; usb; clipboard-write" hidden></iframe>
+
+<main class="work">
+  <!-- ====== pannello del PC (comune a tutte le schede) ====== -->
+  <section class="pane pc" id="pcPane">
+    <div class="ptitle"><span class="pt" data-t="pcTitle"></span><span class="sub" id="pcInfo"></span></div>
+    <div class="pathbar">
+      <button class="ib" id="pcUp" data-tt="up">↑</button>
+      <button class="ib" id="pcHome" data-tt="home">⌂</button>
+      <select id="pcRoots" data-tt="places"></select>
+      <input id="pcPath" spellcheck="false">
+      <button class="ib" id="pcPick" data-tt="pick">📁</button>
+      <button class="ib" id="pcRefresh" data-tt="refresh">↻</button>
+    </div>
+    <div class="tablewrap" id="pcWrap" tabindex="0">
+      <table class="files" id="pcTable">
+        <thead><tr><th data-t="colName"></th><th class="r" data-t="colSize"></th><th data-t="colType"></th><th data-t="colDate"></th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="pfoot">
+      <label class="ck"><input type="checkbox" id="pcC64Only"><span data-t="c64Only"></span></label>
+      <span class="sp"></span>
+      <button class="b sm" id="pcNewDir" data-t="newDir"></button>
+      <button class="b sm" id="pcRename" data-t="rename"></button>
+      <button class="b sm" id="pcTrash" data-t="trash"></button>
+    </div>
+  </section>
+
+  <!-- ====== scheda: floppy ⇄ PC ====== -->
+  <section class="tabpage" id="tabDrive">
+    <div class="mid">
+      <button class="b arrow" id="cpToDisk" data-tt="toDiskT"><span>→</span><small data-t="toDisk"></small></button>
+      <button class="b arrow" id="cpToPc" data-tt="toPcT"><span>←</span><small data-t="toPc"></small></button>
+      <div class="msep"></div>
+      <button class="b arrow img" id="imgFromDisk" data-tt="diskToImgT"><span>⤶</span><small data-t="diskToImg"></small></button>
+      <button class="b arrow img" id="imgToDisk" data-tt="imgToDiskT"><span>⤷</span><small data-t="imgToDisk"></small></button>
+    </div>
+    <section class="pane disk">
+      <div class="ptitle">
+        <span class="pt" data-t="diskTitle"></span>
+        <label class="dev"><span data-t="dev"></span> <select id="devNr"><option>8</option><option>9</option><option>10</option><option>11</option></select></label>
+        <span class="sub" id="dosInfo"></span>
+      </div>
+      <div class="c64screen" id="dirWrap" tabindex="0">
+        <div class="dhead" id="dirHead"></div>
+        <table class="dir" id="dirTable"><tbody></tbody></table>
+        <div class="dfoot" id="dirFoot"></div>
+        <div class="dempty" id="dirEmpty"></div>
+      </div>
+      <div class="dtools">
+        <button class="b sm" id="dDir"><span>↻</span> <span data-t="dirBtn"></span></button>
+        <button class="b sm" id="dStatus" data-t="status"></button>
+        <button class="b sm" id="dRename" data-t="rename"></button>
+        <button class="b sm" id="dScratch" data-t="scratch"></button>
+        <button class="b sm" id="dFormat" data-t="format"></button>
+        <button class="b sm" id="dValidate" data-t="validate"></button>
+        <button class="b sm" id="dInit" data-t="init"></button>
+        <button class="b sm" id="dCmd" data-t="dosCmd"></button>
+        <span class="sp"></span>
+        <button class="b sm" id="dReset" data-t="busReset"></button>
+      </div>
+      <div class="dstat" id="dStat">—</div>
+    </section>
+  </section>
+
+  <!-- ====== scheda: il C64 usa il PC (drive e stampante emulati, RFIEC) ====== -->
+  <section class="tabpage" id="tabEmu" hidden>
+    <div class="mid">
+      <button class="b arrow" id="emuMount" data-tt="mountT"><span>→</span><small data-t="mount"></small></button>
+    </div>
+    <section class="pane emu">
+      <div class="ptitle"><span class="pt" data-t="emuTitle"></span><span class="sub" id="emuState"></span><span class="sp"></span>
+        <button class="b go" id="emuGo"><span>▶</span> <span data-t="emuStart"></span></button>
+        <button class="b" id="emuStop" hidden><span>■</span> <span data-t="emuStop"></span></button>
+      </div>
+      <div class="emucols">
+        <div class="ecard">
+          <div class="erow">
+            <label class="ck"><input type="checkbox" id="emuDriveOn" checked><b data-t="emuDrive"></b></label>
+            <label><span data-t="dev"></span> <select id="emuDev"><option>8</option><option>9</option><option>10</option><option>11</option></select></label>
+            <span class="sp"></span>
+            <select id="emuNewFmt"><option value="d64">D64 (1541)</option><option value="d71">D71 (1571)</option><option value="d81">D81 (1581)</option></select>
+            <button class="b sm" id="emuNew" data-t="newDisk"></button>
+            <button class="b sm" id="emuEject" data-t="eject"></button>
+          </div>
+          <div class="mounted" id="emuMounted"></div>
+          <div class="c64screen small" id="emuDirWrap">
+            <div class="dhead" id="emuDirHead"></div>
+            <table class="dir" id="emuDirTable"><tbody></tbody></table>
+            <div class="dfoot" id="emuDirFoot"></div>
+            <div class="dempty" id="emuDirEmpty"></div>
+          </div>
+        </div>
+        <div class="ecard">
+          <div class="erow">
+            <label class="ck"><input type="checkbox" id="emuPrnOn" checked><b data-t="emuPrinter"></b></label>
+            <label><span data-t="dev"></span> <select id="emuPrnDev"><option>4</option><option>5</option></select></label>
+            <select id="emuPrnModel"><option value="mps">Commodore MPS-803</option><option value="epson">Epson FX</option><option value="nec">NEC P (24)</option></select>
+          </div>
+          <div class="paperbox"><canvas id="paper"></canvas><div class="pnone" id="paperNone" data-t="paperNone"></div></div>
+          <div class="erow">
+            <span class="sub" id="paperInfo"></span><span class="sp"></span>
+            <button class="b sm" id="paperPdf" data-t="savePdf"></button>
+            <button class="b sm" id="paperPrn" data-t="savePrn"></button>
+            <button class="b sm" id="paperClear" data-t="clearPaper"></button>
+          </div>
+        </div>
+      </div>
+      <div class="activity" id="emuAct"></div>
+    </section>
+  </section>
+
+  <!-- ====== scheda: stampa sulla stampante vera ====== -->
+  <section class="tabpage" id="tabPrint" hidden>
+    <div class="mid">
+      <button class="b arrow" id="prLoad" data-tt="prLoadT"><span>→</span><small data-t="prLoad"></small></button>
+    </div>
+    <section class="pane print">
+      <div class="ptitle"><span class="pt" data-t="printTitle"></span>
+        <label class="dev"><span data-t="dev"></span> <select id="prDev"><option>4</option><option>5</option></select></label>
+        <span class="sub" id="prInfo"></span></div>
+      <textarea id="prText" spellcheck="false"></textarea>
+      <div class="erow">
+        <label><span data-t="charset"></span> <select id="prLower"><option value="0" data-t="upper"></option><option value="1" data-t="lower"></option></select></label>
+        <span class="sp"></span>
+        <button class="b sm" id="prRaw" data-t="prRaw"></button>
+        <button class="b go" id="prGo"><span>🖨</span> <span data-t="prGo"></span></button>
+      </div>
+      <p class="hint" data-t="printHint"></p>
+    </section>
+  </section>
 </main>
 
-<dialog id="chooser">
-  <form method="dialog">
-    <h3 id="chTitle"></h3>
-    <p id="chHelp" class="help"></p>
-    <div id="chList" class="list" role="listbox"></div>
-    <label class="ck"><input type="checkbox" id="chAll"> <span id="chAllL"></span></label>
-    <div class="btns">
-      <button value="cancel" id="chCancel"></button>
-      <button value="ok" id="chOk" class="pri"></button>
-    </div>
-  </form>
-</dialog>
-<script src="shell.js"></script>
+<!-- avanzamento e registro -->
+<footer class="bottom">
+  <div class="prog" id="prog" hidden>
+    <span id="progL"></span>
+    <div class="bar"><i id="progBar"></i></div>
+    <span id="progEta"></span>
+    <button class="b sm warn" id="progStop" data-t="stop"></button>
+  </div>
+  <div class="statusline"><span id="statusL"></span><span class="sp"></span><button class="lk" id="logToggle" data-t="logShow"></button></div>
+  <div class="log" id="log" hidden></div>
+</footer>
+
+<!-- finestre -->
+<dialog id="chooser"><form method="dialog">
+  <h3 id="chTitle"></h3><p class="help" id="chHelp"></p>
+  <div class="list" id="chList"></div>
+  <label class="ck" id="chAllBox"><input type="checkbox" id="chAll"><span data-t="allPorts"></span></label>
+  <div class="btns"><button value="cancel" class="b" data-t="cancel"></button><button value="ok" class="b pri" id="chOk" data-t="connect"></button></div>
+</form></dialog>
+<dialog id="ask"><form method="dialog">
+  <h3 id="askTitle"></h3><div class="help" id="askBody"></div>
+  <div class="fields" id="askFields"></div>
+  <div class="out" id="askOut"></div>
+  <div class="btns" id="askBtns"></div>
+</form></dialog>
+<div class="toast" id="toast"></div>
+
+<script src="lib/d64.js"></script>
+<script src="lib/cbm.js"></script>
+<script src="lib/fakedrive.js"></script>
+<script src="lib/zip.js"></script>
+<script src="lib/iec.js"></script>
+<script src="lib/firmware-data.js"></script>
+<script src="lib/printer.js"></script>
+<script src="i18n.js"></script>
+<script src="app.js"></script>
 </body>
 </html>

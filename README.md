@@ -30,7 +30,7 @@ bus timing and forwards every bus event over USB.
 - [Hardware](#hardware)
 - [Install the firmware](#install-the-firmware)
 - [Use it](#use-it)
-- [Desktop app](#desktop-app-windows-linux-macos)
+- [Desktop program](#desktop-program-windows-linux-macos)
 - [RFIEC or XUM1541?](#rfiec-or-xum1541)
 - [Build from source](#build-from-source)
 - [How it works](#how-it-works)
@@ -116,13 +116,14 @@ On the drive page open **Real drive** and press the orange **Connect the RFIEC**
 Browsers: Web Serial is available in **Chrome**, **Edge** and **Firefox 151 or later** (Firefox asks for an extra
 permission the first time). On Linux your user must be allowed to open serial ports (usually the `dialout` group).
 
-## Desktop app (Windows, Linux, macOS)
+## Desktop program (Windows, Linux, macOS)
 
-The same drive and printer programs are also available as an **offline app**: no browser needed and no driver for
-the RFIEC. The app also works with an xum1541. It keeps the connection open while you switch between the drive and
-printer tabs, and saves PDFs, D64 images and print data with a normal *Save as* dialog.
+**RFIEC** is also a desktop program in the style of cbmXfer. It shows PC folders on the left and the floppy directory
+on the right, and copies files, disk images, DOS commands and formats. It also works the other way round: the C64
+uses the PC as drive 8 and as printer 4, and whatever the C64 saves goes straight into the D64 file on the PC. It can
+also print on a real Commodore printer. It works with the RFIEC (no driver) and with an xum1541, in Italian and English.
 
-<p align="center"><img src="docs/images/app-drive.png" width="820" alt="The RFIEC desktop app, drive tab"></p>
+<p align="center"><img src="docs/images/app-drive.png" width="820" alt="The RFIEC desktop program"></p>
 
 Download it from the [releases](https://github.com/zeus074/RFIEC/releases) (tags `desktop-v…`). Details, notes for
 each system and how to build it are in [desktop/README.md](desktop/README.md).

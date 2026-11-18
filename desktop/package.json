@@ -2,7 +2,7 @@
   "name": "rfiec-desktop",
   "productName": "RFIEC",
   "version": "0.1.0",
-  "description": "Commodore floppy drives and printers on your PC through the RFIEC (Web Serial) or xum1541 (WebUSB) board: the PC as a drive or printer for the C64, or the PC driving real drives and printers.",
+  "description": "RFIEC: Commodore floppy drives and printers on the PC with the RFIEC board or an xum1541 - two-pane floppy/PC file manager, the C64 using the PC as drive and printer, printing on real printers.",
   "homepage": "https://github.com/zeus074/RFIEC",
   "author": "RetroFixer <noreply@retrofixer.it>",
   "license": "GPL-3.0-or-later",
@@ -22,13 +22,64 @@
     "appId": "it.retrofixer.rfiec",
     "productName": "RFIEC",
     "artifactName": "RFIEC-${version}-${os}-${arch}.${ext}",
-    "directories": { "output": "dist", "buildResources": "build" },
-    "files": ["main.js", "preload.js", "csdb.js", "app/**/*", "build/icon.png", "package.json"],
-    "win": { "target": [{ "target": "nsis", "arch": ["x64"] }, { "target": "portable", "arch": ["x64"] }] },
-    "portable": { "artifactName": "RFIEC-${version}-win-portable.${ext}" },
-    "nsis": { "oneClick": false, "allowToChangeInstallationDirectory": true, "createDesktopShortcut": true },
-    "linux": { "target": ["AppImage", "deb"], "category": "Utility", "maintainer": "RetroFixer <noreply@retrofixer.it>" },
-    "deb": { "depends": [] },
-    "mac": { "target": [{ "target": "dmg", "arch": ["x64", "arm64"] }], "category": "public.app-category.utilities", "identity": null }
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "app/**/*",
+      "build/icon.png",
+      "package.json"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "portable": {
+      "artifactName": "RFIEC-${version}-win-portable.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "category": "Utility",
+      "maintainer": "RetroFixer <noreply@retrofixer.it>"
+    },
+    "deb": {
+      "depends": []
+    },
+    "mac": {
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "x64",
+            "arm64"
+          ]
+        }
+      ],
+      "category": "public.app-category.utilities",
+      "identity": null
+    }
   }
 }
